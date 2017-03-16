@@ -3,6 +3,7 @@ import requests
 import json
 import sys
 import logging
+from collections import namedtuple
 
 
 def google_latlng(exif):
@@ -44,10 +45,7 @@ def get_address(location, coordtype='wgs84ll', output='json', ak='v1yu84f4aLIL0e
         province = res_dict['result']['addressComponent']['province']
         city = res_dict['result']['addressComponent']['city']
         district = res_dict['result']['addressComponent']['district']
-        # 如果是直辖市直接将 city 置为空，避免输出重复
-        if province == city:
-            province = ''
-        return country + province + city + district
+        return namedtuple('Location', ['country', 'province', 'city', 'district'])(country, province, city, district)
     return None
 
 
@@ -57,11 +55,15 @@ def locate(filename):
     输出：精确到区的地址'''
 
     img = Image.open(filename)
-    if img._getexif() is None:
-        logging.error('没有 EXIF 信息！')
-        return None
+    # 如果没有 _getexif 属性则直接返回 None
+    if hasattr(img, '_getexif'):
+        if img._getexif() is None:
+            logging.error('没有 EXIF 信息！')
+            return None
+        else:
+            exif = {ExifTags.TAGS[k]: v for k, v in img._getexif().items() if k in ExifTags.TAGS}
     else:
-        exif = {ExifTags.TAGS[k]: v for k, v in img._getexif().items() if k in ExifTags.TAGS}
+        return None
 
     latlng = google_latlng(exif)
 

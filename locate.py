@@ -7,7 +7,7 @@ import logging
 
 def google_latlng(exif):
     '''由 exif 信息得到 WGS84 经纬度坐标，纬度在前，经度在后'''
-    if 'GPSInfo' in exif:
+    if 'GPSInfo' in exif and 1 in exif['GPSInfo']:
         gps_info = exif['GPSInfo']
     else:
         logging.error('没有 GPS 信息！')
@@ -70,4 +70,4 @@ def locate(filename):
 
 
 if __name__ == '__main__':
-    print(locate(r'C:\Users\secsi\Pictures\Saved Pictures\图片地图测试\717702057514335737.jpg'))
+    print(locate(r'C:\Users\secsi\Pictures\Saved Pictures\图片地图测试\645405576977308572.jpg'))

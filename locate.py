@@ -1,11 +1,18 @@
 from PIL import Image, ExifTags
 import requests
 import json
+import sys
+import logging
 
 
 def google_latlng(exif):
     '''由 exif 信息得到 WGS84 经纬度坐标，纬度在前，经度在后'''
-    gps_info = exif['GPSInfo']
+    if 'GPSInfo' in exif:
+        gps_info = exif['GPSInfo']
+    else:
+        logging.error('没有 GPS 信息！')
+        return None
+    
     first_element = lambda t: t[0]
 
     # 纬度 latitude
@@ -39,7 +46,7 @@ def get_address(location, coordtype='wgs84ll', output='json', ak='v1yu84f4aLIL0e
         district = res_dict['result']['addressComponent']['district']
         # 如果是直辖市直接将 city 置为空，避免输出重复
         if province == city:
-            city = ''
+            province = ''
         return country + province + city + district
     return None
 
@@ -50,7 +57,11 @@ def locate(filename):
     输出：精确到区的地址'''
 
     img = Image.open(filename)
-    exif = {ExifTags.TAGS[k]: v for k, v in img._getexif().items() if k in ExifTags.TAGS}
+    if img._getexif() is None:
+        logging.error('没有 EXIF 信息！')
+        return None
+    else:
+        exif = {ExifTags.TAGS[k]: v for k, v in img._getexif().items() if k in ExifTags.TAGS}
 
     latlng = google_latlng(exif)
 
@@ -59,4 +70,4 @@ def locate(filename):
 
 
 if __name__ == '__main__':
-    print(locate(r'C:\Users\secsi\Pictures\Saved Pictures\9.jpg'))
+    print(locate(r'C:\Users\secsi\Pictures\Saved Pictures\图片地图测试\717702057514335737.jpg'))

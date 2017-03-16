@@ -10,6 +10,7 @@ logging.basicConfig(level=logging.ERROR)
 def classify(imgdir):
     base_path = imgdir
     fileformats = ['jpg', 'jpeg']
+    # 使用 os.scandir() 要比 os.listdir() 更有效率
     it = os.scandir(base_path)
     for entry in it:
         if entry.name.split('.')[-1] in fileformats and entry.is_file():

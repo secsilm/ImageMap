@@ -30,7 +30,7 @@ def google_latlng(exif):
     return str(lat) + ',' + str(lng)
 
 
-def get_address(location, coordtype='wgs84ll', output='json', ak='v1yu84f4aLIL0em89zmYxRiLydvBqGgw'):
+def get_address(location, coordtype='wgs84ll', output='json', ak='v1yu84f4aLIL0em89zmYxRiLydvBqGgw', detail=False):
     '''由坐标得到实际地址，精确到区，输出格式默认为 json'''
     
     geo_url = 'http://api.map.baidu.com/geocoder/v2/?'
@@ -45,11 +45,17 @@ def get_address(location, coordtype='wgs84ll', output='json', ak='v1yu84f4aLIL0e
         province = res_dict['result']['addressComponent']['province']
         city = res_dict['result']['addressComponent']['city']
         district = res_dict['result']['addressComponent']['district']
-        return namedtuple('Location', ['country', 'province', 'city', 'district'])(country, province, city, district)
+        logging.debug(detail)
+        if detail:
+            formatted_address = res_dict['result']['formatted_address']
+            sematic_description = res_dict['result']['sematic_description']
+            return namedtuple('Location', ['country', 'province', 'city', 'district', 'formatted_address', 'sematic_description'])(country, province, city, district, formatted_address, sematic_description)
+        else:
+            return namedtuple('Location', ['country', 'province', 'city', 'district'])(country, province, city, district)
     return None
 
 
-def locate(filename):
+def locate(filename, detail=False):
     '''定位图片拍摄地址
     输入：文件名，
     输出：精确到区的地址'''
@@ -66,8 +72,9 @@ def locate(filename):
         return None
 
     latlng = google_latlng(exif)
+    logging.debug(detail)
+    address = get_address(latlng, detail=detail)
 
-    address = get_address(latlng)
     return address
 
 

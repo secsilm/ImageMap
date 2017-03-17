@@ -12,7 +12,7 @@ def only_show_address(imgpath, detail=True):
     '''
 
     address = locate(imgpath, detail)
-    logging.debug(address, detail)
+    logging.debug('address: {}, detail: {}'.format(address, detail))
     if detail:
         print(imgpath, address.formatted_address, address.sematic_description)
     else:
@@ -24,6 +24,7 @@ def only_show_address(imgpath, detail=True):
 @click.option('--imgpath', help='存放着图片的目录，同时新的分类目录也将在这个目录下')
 def classify(class_, imgpath):
     if class_ and os.path.isdir(imgpath):
+        logging.debug('class_: {}, isdir: {}'.format(class_, os.path.isdir(imgpath)))
         base_path = imgpath
         fileformats = ['jpg', 'jpeg']
         # 使用 os.scandir() 要比 os.listdir() 更有效率
@@ -47,11 +48,12 @@ def classify(class_, imgpath):
                     path = os.path.join(base_path, address.city, address.district)
                 os.makedirs(path, exist_ok=True)
                 os.rename(entry.path, os.path.join(path, entry.name))
-                logging.info(entry.name, address, path)
-    elif os.path.isfile(imgpath):
+                logging.info('entry name: {}, address: {}, path: {}'.format(entry.name, address, path))
+    elif not class_ and os.path.isfile(imgpath):
+        logging.debug('class_: {}, isdir: {}'.format(class_, os.path.isdir(imgpath)))
         only_show_address(imgpath, detail=True)
     else:
-        print('请检查输入的 classify_ 和 imgpath 是否匹配！')
+        print('请检查输入的 class_ 和 imgpath 是否匹配！class_ 是 {}，而 imgpath 是 {}'.format(class_, imgpath))
 
 
 if __name__ == '__main__':

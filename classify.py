@@ -5,7 +5,7 @@ import click
 import gmplot
 from numpy import mean
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def only_show_address(imgpath, detail=True):
@@ -68,6 +68,7 @@ def classify(class_, imgpath, showmap):
                 os.rename(entry.path, os.path.join(path, entry.name))
                 logging.info('entry name: {}, address: {}, path: {}'.format(entry.name, address, path))
         
+        # 去除重复的坐标
         latlng_set = set()
         for i, j in zip(lats, lngs):
             latlng_set.add((i, j))

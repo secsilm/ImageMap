@@ -6,7 +6,7 @@ import logging
 from collections import namedtuple
 
 
-def google_latlng(exif):
+def get_latlng(exif):
     '''由 exif 信息得到 WGS84 经纬度坐标，纬度在前，经度在后'''
     if 'GPSInfo' in exif and 1 in exif['GPSInfo']:
         gps_info = exif['GPSInfo']
@@ -45,13 +45,17 @@ def get_address(location, coordtype='wgs84ll', output='json', ak='v1yu84f4aLIL0e
         province = res_dict['result']['addressComponent']['province']
         city = res_dict['result']['addressComponent']['city']
         district = res_dict['result']['addressComponent']['district']
+        # 百度所使用的 bd09ll 经纬度坐标
+        baidu_lat = res_dict['result']['location']['lat']
+        baidu_lng = res_dict['result']['location']['lng']
+        baidu_latlng = str(baidu_lat) + ',' + str(baidu_lng)
         logging.debug(detail)
         if detail:
             formatted_address = res_dict['result']['formatted_address']
             sematic_description = res_dict['result']['sematic_description']
-            return namedtuple('Location', ['country', 'province', 'city', 'district', 'formatted_address', 'sematic_description'])(country, province, city, district, formatted_address, sematic_description)
+            return namedtuple('Location', ['country', 'province', 'city', 'district', 'formatted_address', 'sematic_description', 'google_latlng', 'baidu_latlng'])(country, province, city, district, formatted_address, sematic_description, location, baidu_latlng)
         else:
-            return namedtuple('Location', ['country', 'province', 'city', 'district'])(country, province, city, district)
+            return namedtuple('Location', ['country', 'province', 'city', 'district', 'google_latlng', 'baidu_latlng'])(country, province, city, district, location, baidu_latlng)
     return None
 
 
@@ -71,7 +75,7 @@ def locate(filename, detail=False):
     else:
         return None
 
-    latlng = google_latlng(exif)
+    latlng = get_latlng(exif)
     logging.debug(detail)
     address = get_address(latlng, detail=detail)
 

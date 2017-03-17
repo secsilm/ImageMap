@@ -39,4 +39,4 @@ python .\classify.py --no-class_ --imgpath=*your_image_full_path*
 
 默认将会在当前目录下输出 `imgmap.html` 文件，在 Google Map 上标注了照片的位置。
 
-![](http://ww1.sinaimg.cn/large/95789b80ly1fdq8q0sypxj21h60oke82.jpg)
+![example](http://i.imgur.com/5r6KtlA.png)

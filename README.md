@@ -4,16 +4,19 @@
 
 - 按照地点分类你的照片。
 - 显示单个照片的详细地理位置信息。
-- 在地图上显示你的照片。
+- ~~在地图上显示你的照片。~~
 
 ## 参数
 
+```
 Usage: classify.py [OPTIONS]
 
-Options:
-  --class_ / --no-class_  是否分类图片到不同的文件夹，默认为True
-  --imgpath TEXT          存放着图片的目录，同时新的分类目录也将在这个目录下
-  --help                  Show this message and exit.
+Options:  
+  --class_ / --no-class_  是否分类图片到不同的文件夹，默认为True  
+  --imgpath TEXT          存放着图片的目录，同时新的分类目录也将在这个目录下  
+  --help                  Show this message and exit.  
+
+```
 
 ## 用法
 

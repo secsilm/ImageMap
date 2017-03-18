@@ -23,16 +23,16 @@ Options:
 
 将目录下的图片按地点分类整理：
 
-```bash
-python classify.py --class_ --imgpath=your_image_directory
+```shell
+$ python classify.py --class_ --imgpath=your_image_directory
 ```
 
 `imgpath` 是存放着你将要分类的图片的目录，同时新的分类目录也将在这个目录下。注意路径中不要包含空格，下同。
 
 显示单个图片的详细地理信息：
 
-```bash
-python .\classify.py --no-class_ --imgpath=*your_image_full_path*
+```shell
+$ python classify.py --no-class_ --imgpath=your_image_full_path
 ```
 
 `imgpath` 是你的图片的完整路径。

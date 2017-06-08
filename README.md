@@ -40,3 +40,9 @@ $ python classify.py --no-class_ --imgpath=your_image_full_path
 默认将会在当前目录下输出 `imgmap.html` 文件，在 Google Map 上标注了照片的位置。
 
 ![example](http://i.imgur.com/CeVdfRK.png)
+
+## TODO
+
+1. 将照片按照类似 Google Photos 的类别分类
+2. 可以选择在地图上只显示哪些或者哪个类别的照片
+3. marker 换成图片的圆形缩略图，类似 Google MyMap

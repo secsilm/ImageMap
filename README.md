@@ -41,7 +41,7 @@ $ python classify.py --no-class_ --imgpath=your_image_full_path
 
 ![example](http://i.imgur.com/CeVdfRK.png)
 
-## TODO
+## TODOs
 
 1. 将照片按照类似 Google Photos 的类别分类
 2. 可以选择在地图上只显示哪些或者哪个类别的照片

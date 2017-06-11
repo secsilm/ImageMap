@@ -1,9 +1,9 @@
-from PIL import Image, ExifTags
-import requests
 import json
-import sys
 import logging
+import sys
 from collections import namedtuple
+import requests
+from PIL import ExifTags, Image
 
 
 def get_latlng(exif):
@@ -13,8 +13,8 @@ def get_latlng(exif):
     else:
         logging.error('没有 GPS 信息！')
         return None
-    
-    first_element = lambda t: t[0]
+
+    def first_element(t): return t[0]
 
     # 纬度 latitude
     lat_list = [first_element(t) for t in gps_info[2]]
@@ -32,10 +32,10 @@ def get_latlng(exif):
 
 def get_address(location, coordtype='wgs84ll', output='json', ak='v1yu84f4aLIL0em89zmYxRiLydvBqGgw', detail=False):
     '''由坐标得到实际地址，精确到区，输出格式默认为 json'''
-    
+
     geo_url = 'http://api.map.baidu.com/geocoder/v2/?'
-    params = {'coordtype': coordtype, 
-              'location': location, 
+    params = {'coordtype': coordtype,
+              'location': location,
               'output': output,
               'ak': ak}
     res = requests.get(geo_url, params=params)
@@ -71,7 +71,8 @@ def locate(filename, detail=False):
             logging.error('没有 EXIF 信息！')
             return None
         else:
-            exif = {ExifTags.TAGS[k]: v for k, v in img._getexif().items() if k in ExifTags.TAGS}
+            exif = {ExifTags.TAGS[k]: v for k, v in img._getexif(
+            ).items() if k in ExifTags.TAGS}
     else:
         return None
 

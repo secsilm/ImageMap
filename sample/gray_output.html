@@ -1,0 +1,60 @@
+
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+                <meta charset="utf-8">
+                <title>Marker Clustering</title>
+                <style>
+                  /* Always set the map height explicitly to define the size of the div
+                  * element that contains the map. */
+                  #map {
+                    height: 100%;
+                  }
+                  /* Optional: Makes the sample page fill the window. */
+                  html, body {
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                  }
+                </style>
+              </head>
+              <body>
+                <div id="map"></div>
+                <script>
+
+                  function initMap() {
+
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                      zoom: 5,
+                      center: {lat: 40.89260444806763, lng: 118.01593673007244},
+                      styles: [{'stylers': [{'saturation': '-100'}], 'featureType': 'administrative', 'elementType': 'all'}, {'stylers': [{'visibility': 'on'}], 'featureType': 'administrative.province', 'elementType': 'all'}, {'stylers': [{'visibility': 'on'}], 'featureType': 'administrative.province', 'elementType': 'geometry'}, {'stylers': [{'saturation': -100}, {'lightness': 65}, {'visibility': 'on'}], 'featureType': 'landscape', 'elementType': 'all'}, {'stylers': [{'saturation': -100}, {'lightness': '50'}, {'visibility': 'simplified'}], 'featureType': 'poi', 'elementType': 'all'}, {'stylers': [{'saturation': '-100'}, {'visibility': 'off'}], 'featureType': 'road', 'elementType': 'all'}, {'stylers': [{'visibility': 'off'}], 'featureType': 'road', 'elementType': 'geometry'}, {'stylers': [{'visibility': 'off'}], 'featureType': 'road', 'elementType': 'labels'}, {'stylers': [{'visibility': 'off'}], 'featureType': 'road', 'elementType': 'labels.icon'}, {'stylers': [{'visibility': 'off'}], 'featureType': 'road.highway', 'elementType': 'all'}, {'stylers': [{'lightness': '30'}, {'visibility': 'off'}], 'featureType': 'road.arterial', 'elementType': 'all'}, {'stylers': [{'lightness': '40'}, {'visibility': 'off'}], 'featureType': 'road.local', 'elementType': 'all'}, {'stylers': [{'saturation': -100}, {'visibility': 'simplified'}], 'featureType': 'transit', 'elementType': 'all'}, {'stylers': [{'hue': '#ffff00'}, {'lightness': -25}, {'saturation': -97}], 'featureType': 'water', 'elementType': 'geometry'}, {'stylers': [{'lightness': -25}, {'saturation': -100}], 'featureType': 'water', 'elementType': 'labels'}]
+                    });
+
+                    // Create an array of alphabetical characters used to label the markers.
+                    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+                    // Add some markers to the map.
+                    // Note: The code uses the JavaScript Array.prototype.map() method to
+                    // create an array of markers based on a given "locations" array.
+                    // The map() method here has nothing to do with the Google Maps API.
+                    var markers = locations.map(function(location, i) {
+                      return new google.maps.Marker({
+                        position: location,
+                        label: labels[i % labels.length]
+                      });
+                    });
+
+                    // Add a marker clusterer to manage the markers.
+                    var markerCluster = new MarkerClusterer(map, markers,
+                        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+                  }
+                  var locations = [{lat: 45.70064363888889, lng: 126.63626886111112}, {lat: 34.91141888888889, lng: 113.666893}, {lat: 34.91185377777778, lng: 113.66697691666667}, {lat: 34.91215894444444, lng: 113.66703033333334}, {lat: 34.91223905555555, lng: 113.66703794444444}, {lat: 35.38692091666667, lng: 113.74193572222222}, {lat: 34.821862, lng: 113.61407197222222}, {lat: 34.818435, lng: 113.614069}, {lat: 35.40823997222222, lng: 113.745311}, {lat: 35.415377972222224, lng: 113.74242597222222}, {lat: 35.40624797222222, lng: 113.745345}, {lat: 35.40624797222222, lng: 113.745345}, {lat: 35.484682222222226, lng: 113.78029552777778}, {lat: 35.48575227777778, lng: 113.78022344444445}, {lat: 35.487040916666665, lng: 113.77981613888889}, {lat: 35.48734286111111, lng: 113.77848}, {lat: 35.48678430555556, lng: 113.77833730555555}, {lat: 35.48679452777778, lng: 113.77839619444444}, {lat: 35.406058, lng: 113.74535097222223}, {lat: 35.41529797222222, lng: 113.741842}, {lat: 45.767974, lng: 126.62012597222221}, {lat: 45.768016027777776, lng: 126.62097691666666}, {lat: 45.768484, lng: 126.62011799999999}, {lat: 45.762570583333336, lng: 126.62506116666665}, {lat: 39.08501202777778, lng: 117.69025838888889}, {lat: 39.007849, lng: 117.65582897222222}, {lat: 39.008076, lng: 117.655855}, {lat: 39.00821497222222, lng: 117.65605297222223}, {lat: 39.00794302777778, lng: 117.65551241666667}, {lat: 35.415569999999995, lng: 113.74199197222222}, {lat: 35.408132, lng: 113.75922797222222}, {lat: 35.41666680555555, lng: 113.73333419444444}, {lat: 39.042241999999995, lng: 117.72136}, {lat: 39.042725999999995, lng: 117.720302}, {lat: 39.042725999999995, lng: 117.720302}, {lat: 39.04273797222222, lng: 117.72134497222223}, {lat: 39.04273797222222, lng: 117.72134497222223}, {lat: 39.08714975, lng: 117.6889325}, {lat: 39.08714975, lng: 117.6889325}, {lat: 39.087046, lng: 117.689514}, {lat: 39.087046, lng: 117.689514}, {lat: 39.087046, lng: 117.689514}, {lat: 39.087046, lng: 117.689514}, {lat: 45.87119769444445, lng: 126.55776922222222}, {lat: 159.51020530555556, lng: 157.36778369444443}, {lat: 45.766840527777774, lng: 126.61716547222221}]
+                </script>
+                <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+                </script>
+                <script async defer
+                src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+                </script>
+              </body>
+            </html>
